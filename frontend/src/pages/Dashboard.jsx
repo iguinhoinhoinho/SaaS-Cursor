@@ -84,7 +84,7 @@ const Dashboard = () => {
 
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Ações Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             to="/quartos"
             className="block p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
@@ -98,6 +98,13 @@ const Dashboard = () => {
           >
             <span className="text-2xl mb-2 block">📅</span>
             <span className="text-gray-700 font-medium">Ver Reservas</span>
+          </Link>
+          <Link
+            to="/cadastro"
+            className="block p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
+          >
+            <span className="text-2xl mb-2 block">👤</span>
+            <span className="text-gray-700 font-medium">Cadastrar Hóspede</span>
           </Link>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Dashboard from './pages/Dashboard'
 import Quartos from './pages/Quartos'
 import Reservas from './pages/Reservas'
+import Cadastro from './pages/Cadastro'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/quartos" element={<Quartos />} />
             <Route path="/reservas" element={<Reservas />} />
+            <Route path="/cadastro" element={<Cadastro />} />
           </Routes>
         </main>
       </div>
