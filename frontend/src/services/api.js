@@ -49,20 +49,27 @@ export const cadastroService = {
     }
 
     // Preparar dados para inserção no Supabase
+    // Montar endereço completo como string (formato da tabela)
+    const enderecoCompleto = [
+      dados.endereco.rua,
+      dados.endereco.numero,
+      dados.endereco.complemento ? ` - ${dados.endereco.complemento}` : '',
+      `, ${dados.endereco.cidade}`,
+      ` - ${dados.endereco.estado}`,
+      `, CEP: ${dados.endereco.cep}`
+    ].join('')
+
+    // Remover formatação do CPF (apenas números)
+    const cpfLimpo = dados.cpf.replace(/\D/g, '')
+
     const dadosUsuario = {
       nome: dados.nome,
       email: dados.email,
       telefone: dados.telefone,
-      cpf: dados.cpf,
-      data_nascimento: dados.dataNascimento,
+      cpf: cpfLimpo, // CPF sem formatação (11 dígitos)
       senha: dados.senha, // Nota: em produção, a senha deve ser hasheada
-      endereco_rua: dados.endereco.rua,
-      endereco_numero: dados.endereco.numero,
-      endereco_complemento: dados.endereco.complemento || null,
-      endereco_cidade: dados.endereco.cidade,
-      endereco_estado: dados.endereco.estado,
-      endereco_cep: dados.endereco.cep,
-      created_at: new Date().toISOString(),
+      endereco: enderecoCompleto,
+      // created_at será preenchido automaticamente pelo DEFAULT now()
     }
 
     // Inserir dados na tabela 'usuarios' do Supabase
