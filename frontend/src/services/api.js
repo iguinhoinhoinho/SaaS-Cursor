@@ -39,6 +39,11 @@ export const quartosService = {
 
 export const cadastroService = {
   create: async (dados) => {
+    // Verificar se o Supabase está configurado
+    if (!supabase) {
+      throw new Error('Supabase não está configurado. Configure as variáveis de ambiente VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY')
+    }
+
     // Preparar dados para inserção no Supabase
     const dadosUsuario = {
       nome: dados.nome,
