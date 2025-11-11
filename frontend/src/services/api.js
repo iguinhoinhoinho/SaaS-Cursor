@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { supabase } from './supabase'
 
 const API_URL = '/api/items'
 
@@ -36,25 +37,36 @@ export const quartosService = {
   },
 }
 
-const cadastroApi = axios.create({
-  baseURL: '/api/cadastro',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
 export const cadastroService = {
   create: async (dados) => {
-    // Por enquanto, usando a mesma API de items até criar endpoint específico
-    // Quando o backend tiver endpoint de cadastro, alterar para cadastroApi
-    const response = await cadastroApi.post('/', dados).catch(() => {
-      // Fallback: usar a API de items temporariamente
-      return api.post('/', {
-        name: dados.nome,
-        description: `Email: ${dados.email} | Telefone: ${dados.telefone} | CPF: ${dados.cpf}`,
-      })
-    })
-    return response.data
+    // Preparar dados para inserção no Supabase
+    const dadosUsuario = {
+      nome: dados.nome,
+      email: dados.email,
+      telefone: dados.telefone,
+      cpf: dados.cpf,
+      data_nascimento: dados.dataNascimento,
+      senha: dados.senha, // Nota: em produção, a senha deve ser hasheada
+      endereco_rua: dados.endereco.rua,
+      endereco_numero: dados.endereco.numero,
+      endereco_complemento: dados.endereco.complemento || null,
+      endereco_cidade: dados.endereco.cidade,
+      endereco_estado: dados.endereco.estado,
+      endereco_cep: dados.endereco.cep,
+      created_at: new Date().toISOString(),
+    }
+
+    // Inserir dados na tabela 'usuarios' do Supabase
+    const { data, error } = await supabase
+      .from('usuarios')
+      .insert([dadosUsuario])
+      .select()
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return data
   },
 }
 

@@ -168,11 +168,12 @@ const Cadastro = () => {
       const { confirmarSenha, ...dataToSend } = formData
       
       await cadastroService.create(dataToSend)
-      alert('Cadastro realizado com sucesso!')
+      alert('Cadastro realizado com sucesso! Você já pode fazer login.')
       navigate('/')
     } catch (error) {
       console.error('Erro ao cadastrar:', error)
-      alert('Erro ao realizar cadastro. Tente novamente.')
+      const errorMessage = error.message || 'Erro ao realizar cadastro. Tente novamente.'
+      alert(`Erro: ${errorMessage}`)
     } finally {
       setLoading(false)
     }
