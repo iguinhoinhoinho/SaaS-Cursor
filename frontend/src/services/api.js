@@ -79,7 +79,13 @@ export const cadastroService = {
       .select()
 
     if (error) {
-      throw new Error(error.message)
+      console.error('Erro do Supabase:', error)
+      // Mensagem mais detalhada para ajudar no diagnóstico
+      let errorMessage = error.message
+      if (error.message.includes('schema cache')) {
+        errorMessage += '\n\nVerifique se:\n1. A tabela "usuarios" existe no Supabase\n2. As políticas RLS estão configuradas corretamente\n3. A chave anônima tem permissão para INSERT'
+      }
+      throw new Error(errorMessage)
     }
 
     return data
