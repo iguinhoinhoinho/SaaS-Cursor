@@ -41,7 +41,11 @@ export const cadastroService = {
   create: async (dados) => {
     // Verificar se o Supabase está configurado
     if (!supabase) {
-      throw new Error('Supabase não está configurado. Configure as variáveis de ambiente VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY')
+      const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+      const errorMsg = isProduction 
+        ? 'Supabase não está configurado no Render. Configure as variáveis VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nas configurações de ambiente do serviço no painel do Render.'
+        : 'Supabase não está configurado. Configure as variáveis de ambiente VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env do frontend.'
+      throw new Error(errorMsg)
     }
 
     // Preparar dados para inserção no Supabase
